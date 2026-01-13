@@ -1,6 +1,7 @@
 import { Horse, VitalsReading, ActiveCase } from '../data/vetData';
 import { computeConditionSummary, formatDate } from '../utils/helpers';
 import { getStatusFromScore, severityToStatus } from '../utils/helpers';
+import { MetricType } from './MetricDetailModal';
 
 interface PatientSummaryCardsProps {
   horse: Horse;
@@ -8,14 +9,16 @@ interface PatientSummaryCardsProps {
   activeCases: ActiveCase[];
   lastVetVisit: string | undefined;
   nextScheduledVisit: string | undefined;
+  onMetricClick?: (metricType: MetricType) => void;
 }
 
 export function PatientSummaryCards({
-  horse,
+  horse: _horse,
   latestVitals,
   activeCases,
   lastVetVisit,
   nextScheduledVisit,
+  onMetricClick,
 }: PatientSummaryCardsProps) {
   const condition = computeConditionSummary(latestVitals, activeCases);
   const highestSeverity = activeCases.length > 0
@@ -34,7 +37,10 @@ export function PatientSummaryCards({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {/* Current Condition */}
-      <div className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+      <div 
+        onClick={() => onMetricClick?.('currentCondition')}
+        className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105 cursor-pointer"
+      >
         <div className="flex items-start justify-between mb-3">
           <h3 className="text-sm font-bold text-primary uppercase tracking-wide">Current Condition</h3>
           <span className={`px-3 py-1 rounded-full text-xs font-bold border-2 shadow-md ${statusColor(condition.status)}`}>
@@ -45,7 +51,10 @@ export function PatientSummaryCards({
       </div>
 
       {/* Active Case Count */}
-      <div className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+      <div 
+        onClick={() => onMetricClick?.('activeCases')}
+        className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105 cursor-pointer"
+      >
         <div className="flex items-start justify-between mb-3">
           <h3 className="text-sm font-bold text-primary uppercase tracking-wide">Active Cases</h3>
           {highestSeverity && (
@@ -61,7 +70,10 @@ export function PatientSummaryCards({
       </div>
 
       {/* Recovery Score */}
-      <div className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+      <div 
+        onClick={() => onMetricClick?.('recoveryScore')}
+        className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105 cursor-pointer"
+      >
         <h3 className="text-sm font-bold text-primary uppercase tracking-wide mb-3">Recovery Score</h3>
         {latestVitals ? (
           <>
@@ -79,7 +91,10 @@ export function PatientSummaryCards({
       </div>
 
       {/* Visits */}
-      <div className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+      <div 
+        onClick={() => onMetricClick?.('visits')}
+        className="bg-white rounded-xl border-2 border-accent/30 p-5 shadow-xl hover:shadow-2xl transition-all hover:scale-105 cursor-pointer"
+      >
         <h3 className="text-sm font-bold text-primary uppercase tracking-wide mb-3">Visits</h3>
         <div className="space-y-3">
           {lastVetVisit && (

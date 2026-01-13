@@ -1,13 +1,15 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { VitalsReading } from '../data/vetData';
 import { getDaysFromRange } from '../utils/helpers';
+import { MetricType } from './MetricDetailModal';
 
 interface VitalsTrendsProps {
   vitals: VitalsReading[];
   range: '7d' | '30d' | '6m';
+  onMetricClick?: (metricType: MetricType) => void;
 }
 
-export function VitalsTrends({ vitals, range }: VitalsTrendsProps) {
+export function VitalsTrends({ vitals, range, onMetricClick }: VitalsTrendsProps) {
   const days = getDaysFromRange(range);
   const filteredVitals = vitals.slice(-days);
 
@@ -32,7 +34,10 @@ export function VitalsTrends({ vitals, range }: VitalsTrendsProps) {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Resting HR */}
-        <div className="bg-gradient-to-br from-accent/10 to-accentLighter/30 rounded-lg border-2 border-accent/30 p-4 shadow-sm">
+        <div 
+          onClick={() => onMetricClick?.('restingHR')}
+          className="bg-gradient-to-br from-accent/10 to-accentLighter/30 rounded-lg border-2 border-accent/30 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+        >
           <h3 className="text-sm font-medium text-primary mb-4">Resting Heart Rate</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData}>
@@ -71,7 +76,10 @@ export function VitalsTrends({ vitals, range }: VitalsTrendsProps) {
         </div>
 
         {/* Temperature */}
-        <div className="bg-gradient-to-br from-accent/15 to-accentLight/25 rounded-lg border-2 border-accent/40 p-4 shadow-sm">
+        <div 
+          onClick={() => onMetricClick?.('temperature')}
+          className="bg-gradient-to-br from-accent/15 to-accentLight/25 rounded-lg border-2 border-accent/40 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+        >
           <h3 className="text-sm font-medium text-primary mb-4">Temperature</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData}>
@@ -110,7 +118,10 @@ export function VitalsTrends({ vitals, range }: VitalsTrendsProps) {
         </div>
 
         {/* Recovery Score */}
-        <div className="bg-gradient-to-br from-accent/20 to-accentLight/30 rounded-lg border-2 border-accent/50 p-4 shadow-sm">
+        <div 
+          onClick={() => onMetricClick?.('recoveryScore')}
+          className="bg-gradient-to-br from-accent/20 to-accentLight/30 rounded-lg border-2 border-accent/50 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+        >
           <h3 className="text-sm font-medium text-primary mb-4">Recovery Score</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData}>
@@ -149,7 +160,10 @@ export function VitalsTrends({ vitals, range }: VitalsTrendsProps) {
         </div>
 
         {/* Inflammation Index */}
-        <div className="bg-gradient-to-br from-accentLighter/40 to-accent/20 rounded-lg border-2 border-accent/30 p-4 shadow-sm">
+        <div 
+          onClick={() => onMetricClick?.('inflammationIndex')}
+          className="bg-gradient-to-br from-accentLighter/40 to-accent/20 rounded-lg border-2 border-accent/30 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+        >
           <h3 className="text-sm font-medium text-primary mb-4">Inflammation Index</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData}>

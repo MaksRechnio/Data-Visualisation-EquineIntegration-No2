@@ -42,7 +42,7 @@ export function MedicalTimeline({ events, onEventClick }: MedicalTimelineProps) 
         <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
         
         <div className="space-y-4">
-          {events.map((event, idx) => (
+          {events.map((event) => (
             <button
               key={event.id}
               onClick={() => onEventClick(event)}

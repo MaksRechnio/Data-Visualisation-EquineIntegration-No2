@@ -2,7 +2,6 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { useMemo } from 'react';
 import { MedicalHistoryEvent } from '../data/vetData';
-import * as THREE from 'three';
 
 interface Horse3DVisualizationProps {
   medicalHistory: MedicalHistoryEvent[];
@@ -200,7 +199,35 @@ function HorseModel({ injuries }: { injuries: Record<string, 'high' | 'med' | 'l
 export function Horse3DVisualization({ medicalHistory }: Horse3DVisualizationProps) {
   const injuries = useMemo(() => getInjuredBodyParts(medicalHistory), [medicalHistory]);
   
+  // Get active injury events for the list
+  const activeInjuries = useMemo(() => {
+    const recentDate = new Date();
+    recentDate.setDate(recentDate.getDate() - 90);
+    
+    return medicalHistory
+      .filter(event => event.type === 'Injury' && new Date(event.date) >= recentDate)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [medicalHistory]);
+  
   const hasInjuries = Object.keys(injuries).length > 0;
+
+  // Map body part keys to readable names
+  const bodyPartNames: Record<string, string> = {
+    'rightForeleg': 'Right Foreleg',
+    'leftForeleg': 'Left Foreleg',
+    'rightHind': 'Right Hind Leg',
+    'leftHind': 'Left Hind Leg',
+    'rightAnkle': 'Right Ankle/Fetlock',
+    'leftAnkle': 'Left Ankle/Fetlock',
+    'rightKnee': 'Right Knee',
+    'leftKnee': 'Left Knee',
+    'rightShoulder': 'Right Shoulder',
+    'leftShoulder': 'Left Shoulder',
+    'rightHip': 'Right Hip',
+    'leftHip': 'Left Hip',
+    'neck': 'Neck',
+    'back': 'Back/Spine',
+  };
 
   return (
     <div className="bg-white rounded-xl border-2 border-accent/30 p-4 shadow-xl">
@@ -231,7 +258,49 @@ export function Horse3DVisualization({ medicalHistory }: Horse3DVisualizationPro
         </Canvas>
       </div>
       
-      {!hasInjuries && (
+      {hasInjuries ? (
+        <div className="mt-4">
+          <h3 className="text-sm font-semibold text-primary mb-2">Detected Injuries:</h3>
+          <div className="space-y-2">
+            {Object.entries(injuries).map(([bodyPart, severity]) => (
+              <div key={bodyPart} className="flex items-center justify-between p-2 bg-gray-50 rounded border">
+                <span className="text-sm text-primary">{bodyPartNames[bodyPart] || bodyPart}</span>
+                <span className={`px-2 py-1 rounded text-xs font-medium ${
+                  severity === 'high' ? 'bg-red-100 text-red-800 border border-red-300' :
+                  severity === 'med' ? 'bg-orange-100 text-orange-800 border border-orange-300' :
+                  'bg-amber-100 text-amber-800 border border-amber-300'
+                }`}>
+                  {severity.toUpperCase()}
+                </span>
+              </div>
+            ))}
+          </div>
+          {activeInjuries.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-gray-200">
+              <h3 className="text-sm font-semibold text-primary mb-2">Recent Injury Events:</h3>
+              <div className="space-y-2">
+                {activeInjuries.map((injury) => (
+                  <div key={injury.id} className="p-2 bg-gray-50 rounded border">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-primary">{injury.title}</p>
+                        <p className="text-xs text-gray-600 mt-1">{new Date(injury.date).toLocaleDateString()}</p>
+                      </div>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ml-2 ${
+                        injury.severity === 'high' ? 'bg-red-100 text-red-800 border border-red-300' :
+                        injury.severity === 'med' ? 'bg-orange-100 text-orange-800 border border-orange-300' :
+                        'bg-amber-100 text-amber-800 border border-amber-300'
+                      }`}>
+                        {injury.severity.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
         <p className="text-sm text-primary text-center mt-2">No active injuries detected</p>
       )}
     </div>

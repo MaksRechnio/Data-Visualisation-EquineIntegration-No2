@@ -22,6 +22,7 @@ import { AlertDetailDrawer } from './AlertDetailDrawer';
 import { UpcomingSchedule } from './UpcomingSchedule';
 import { Horse3DVisualization } from './Horse3DVisualization';
 import { getDaysFromRange } from '../utils/helpers';
+import { MetricDetailModal, MetricType } from './MetricDetailModal';
 
 export function VetDashboard() {
   const [selectedHorseId, setSelectedHorseId] = useState<string>(horses[0].id);
@@ -30,6 +31,7 @@ export function VetDashboard() {
   const [activeCase, setActiveCase] = useState<ActiveCase | null>(null);
   const [activeAlert, setActiveAlert] = useState<Alert | null>(null);
   const [acknowledgedUpcomingIds, setAcknowledgedUpcomingIds] = useState<Set<string>>(new Set());
+  const [activeMetric, setActiveMetric] = useState<MetricType | null>(null);
 
   // Get current horse data
   const selectedHorse = horses.find(h => h.id === selectedHorseId) || horses[0];
@@ -97,6 +99,7 @@ export function VetDashboard() {
             activeCases={activeCases}
             lastVetVisit={lastVetVisit}
             nextScheduledVisit={nextScheduledVisit}
+            onMetricClick={setActiveMetric}
           />
         </div>
 
@@ -108,7 +111,7 @@ export function VetDashboard() {
             <ActiveCasesList cases={activeCases} onCaseClick={setActiveCase} />
 
             {/* Vitals & Trends */}
-            <VitalsTrends vitals={filteredVitals} range={range} />
+            <VitalsTrends vitals={filteredVitals} range={range} onMetricClick={setActiveMetric} />
 
             {/* Medical Timeline */}
             <MedicalTimeline
@@ -142,6 +145,20 @@ export function VetDashboard() {
         onClose={() => setActiveTimelineEvent(null)}
       />
       <AlertDetailDrawer alert={activeAlert} onClose={() => setActiveAlert(null)} />
+      
+      {/* Metric Detail Modal */}
+      <MetricDetailModal
+        metricType={activeMetric}
+        onClose={() => setActiveMetric(null)}
+        data={{
+          horse: selectedHorse,
+          latestVitals,
+          allVitals: vitals,
+          activeCases,
+          lastVetVisit,
+          nextScheduledVisit,
+        }}
+      />
     </div>
   );
 }

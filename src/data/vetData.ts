@@ -161,6 +161,20 @@ export const medicalHistoryByHorseId: Record<string, MedicalHistoryEvent[]> = {
   '2': [
     {
       id: 'm2-1',
+      date: '2026-01-10',
+      type: 'Injury',
+      title: 'Shoulder Strain - Left Shoulder',
+      bodySystem: 'Musculoskeletal',
+      severity: 'high',
+      notes: 'Moderate to severe strain detected in left shoulder during training session. Horse showed signs of discomfort and reduced range of motion. Swelling noted around shoulder joint. Immediate rest and cold therapy recommended.',
+      clinician: 'Dr. Sarah Mitchell',
+      attachments: [
+        { label: 'Ultrasound Report', urlPlaceholder: '/attachments/us-aurora-2026-01-10.pdf' },
+        { label: 'X-Ray Image', urlPlaceholder: '/attachments/xray-aurora-2026-01-10.jpg' },
+      ],
+    },
+    {
+      id: 'm2-2',
       date: '2024-01-12',
       type: 'Treatment',
       title: 'Respiratory Therapy',
@@ -170,7 +184,7 @@ export const medicalHistoryByHorseId: Record<string, MedicalHistoryEvent[]> = {
       clinician: 'Dr. James Wilson',
     },
     {
-      id: 'm2-2',
+      id: 'm2-3',
       date: '2024-01-01',
       type: 'Medication',
       title: 'Antibiotic Course',
@@ -180,7 +194,7 @@ export const medicalHistoryByHorseId: Record<string, MedicalHistoryEvent[]> = {
       clinician: 'Dr. James Wilson',
     },
     {
-      id: 'm2-3',
+      id: 'm2-4',
       date: '2023-12-15',
       type: 'Checkup',
       title: 'Dental Examination',
@@ -232,6 +246,19 @@ export const activeCasesByHorseId: Record<string, ActiveCase[]> = {
   '2': [
     {
       id: 'c2-1',
+      diagnosis: 'Shoulder Strain - Left Shoulder',
+      onsetDate: '2026-01-10',
+      status: 'active',
+      treatmentPlan: 'Strict rest for 6 weeks. Cold therapy 3x daily for first week, then alternating heat/cold. Gradual return to exercise under supervision. Monitor for any signs of worsening or lameness.',
+      meds: [
+        { name: 'Phenylbutazone', dose: '2g', frequency: 'BID' },
+        { name: 'Muscle Relaxant', dose: 'As directed', frequency: 'Daily' },
+        { name: 'Joint Supplement', dose: 'As directed', frequency: 'Daily' },
+      ],
+      nextReviewDate: '2026-01-24',
+    },
+    {
+      id: 'c2-2',
       diagnosis: 'Mild Respiratory Congestion',
       onsetDate: '2024-01-10',
       status: 'monitoring',
@@ -346,13 +373,20 @@ export const upcomingByHorseId: Record<string, UpcomingEvent[]> = {
   '2': [
     {
       id: 'u2-1',
-      dateTime: '2024-01-25T11:00:00',
+      dateTime: '2026-01-24T10:00:00',
       type: 'Follow-up',
-      title: 'Respiratory Condition Assessment',
+      title: 'Shoulder Strain Re-evaluation',
       priority: 'high',
     },
     {
       id: 'u2-2',
+      dateTime: '2024-01-25T11:00:00',
+      type: 'Follow-up',
+      title: 'Respiratory Condition Assessment',
+      priority: 'med',
+    },
+    {
+      id: 'u2-3',
       dateTime: '2024-02-10T10:00:00',
       type: 'Vaccination',
       title: 'Annual Vaccination Due',
