@@ -29,17 +29,15 @@ export function VitalsTrends({ vitals, range, onMetricClick }: VitalsTrendsProps
   };
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold text-primary px-1">Vitals & Trends</h2>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div className="space-y-3">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         {/* Resting HR */}
         <div 
           onClick={() => onMetricClick?.('restingHR')}
-          className="bg-gradient-to-br from-accent/10 to-accentLighter/30 rounded-lg border-2 border-accent/30 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+          className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow transition-all cursor-pointer"
         >
-          <h3 className="text-sm font-medium text-primary mb-4">Resting Heart Rate</h3>
-          <ResponsiveContainer width="100%" height={200}>
+          <h3 className="text-xs font-medium text-primary mb-2">Resting Heart Rate</h3>
+          <ResponsiveContainer width="100%" height={120}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis
@@ -67,21 +65,21 @@ export function VitalsTrends({ vitals, range, onMetricClick }: VitalsTrendsProps
                 type="monotone"
                 dataKey="restingHR"
                 stroke="#35D0C6"
-                strokeWidth={3}
+                strokeWidth={2}
                 {...chartConfig}
               />
             </LineChart>
           </ResponsiveContainer>
-          <p className="text-xs text-primary mt-2 text-center">bpm</p>
+          <p className="text-xs text-gray-500 mt-1 text-center">bpm</p>
         </div>
 
         {/* Temperature */}
         <div 
           onClick={() => onMetricClick?.('temperature')}
-          className="bg-gradient-to-br from-accent/15 to-accentLight/25 rounded-lg border-2 border-accent/40 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+          className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow transition-all cursor-pointer"
         >
-          <h3 className="text-sm font-medium text-primary mb-4">Temperature</h3>
-          <ResponsiveContainer width="100%" height={200}>
+          <h3 className="text-xs font-medium text-primary mb-2">Temperature</h3>
+          <ResponsiveContainer width="100%" height={120}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis
@@ -109,21 +107,21 @@ export function VitalsTrends({ vitals, range, onMetricClick }: VitalsTrendsProps
                 type="monotone"
                 dataKey="tempC"
                 stroke="#28A69D"
-                strokeWidth={3}
+                strokeWidth={2}
                 {...chartConfig}
               />
             </LineChart>
           </ResponsiveContainer>
-          <p className="text-xs text-primary mt-2 text-center">°C</p>
+          <p className="text-xs text-gray-500 mt-1 text-center">°C</p>
         </div>
 
         {/* Recovery Score */}
         <div 
           onClick={() => onMetricClick?.('recoveryScore')}
-          className="bg-gradient-to-br from-accent/20 to-accentLight/30 rounded-lg border-2 border-accent/50 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+          className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow transition-all cursor-pointer"
         >
-          <h3 className="text-sm font-medium text-primary mb-4">Recovery Score</h3>
-          <ResponsiveContainer width="100%" height={200}>
+          <h3 className="text-xs font-medium text-primary mb-2">Recovery Score</h3>
+          <ResponsiveContainer width="100%" height={120}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis
@@ -151,21 +149,21 @@ export function VitalsTrends({ vitals, range, onMetricClick }: VitalsTrendsProps
                 type="monotone"
                 dataKey="recoveryScore"
                 stroke="#35D0C6"
-                strokeWidth={3}
+                strokeWidth={2}
                 {...chartConfig}
               />
             </LineChart>
           </ResponsiveContainer>
-          <p className="text-xs text-primary mt-2 text-center">0-100</p>
+          <p className="text-xs text-gray-500 mt-1 text-center">0-100</p>
         </div>
 
         {/* Inflammation Index */}
         <div 
           onClick={() => onMetricClick?.('inflammationIndex')}
-          className="bg-gradient-to-br from-accentLighter/40 to-accent/20 rounded-lg border-2 border-accent/30 p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+          className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm hover:shadow transition-all cursor-pointer"
         >
-          <h3 className="text-sm font-medium text-primary mb-4">Inflammation Index</h3>
-          <ResponsiveContainer width="100%" height={200}>
+          <h3 className="text-xs font-medium text-primary mb-2">Inflammation Index</h3>
+          <ResponsiveContainer width="100%" height={120}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
               <XAxis
@@ -193,12 +191,12 @@ export function VitalsTrends({ vitals, range, onMetricClick }: VitalsTrendsProps
                 type="monotone"
                 dataKey="inflammationIndex"
                 stroke="#7FE8E0"
-                strokeWidth={3}
+                strokeWidth={2}
                 {...chartConfig}
               />
             </LineChart>
           </ResponsiveContainer>
-          <p className="text-xs text-primary mt-2 text-center">0-10</p>
+          <p className="text-xs text-gray-500 mt-1 text-center">0-10</p>
         </div>
       </div>
     </div>

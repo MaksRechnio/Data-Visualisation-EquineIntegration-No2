@@ -1,5 +1,5 @@
 import { MedicalHistoryEvent } from '../data/vetData';
-import { formatDate, severityToStatus } from '../utils/helpers';
+import { formatDate, severityToStatus, getEventStatus } from '../utils/helpers';
 
 interface MedicalTimelineProps {
   events: MedicalHistoryEvent[];
@@ -27,16 +27,14 @@ export function MedicalTimeline({ events, onEventClick }: MedicalTimelineProps) 
 
   if (events.length === 0) {
     return (
-      <div className="bg-gradient-to-br from-accent/15 to-accentLight/25 rounded-lg border-2 border-accent/40 p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-primary mb-4">Medical Timeline</h2>
+      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <p className="text-sm text-primary">No medical history available</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-gradient-to-br from-accent/15 to-accentLight/25 rounded-lg border-2 border-accent/40 p-4 sm:p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-primary mb-4">Medical Timeline</h2>
+    <div className="bg-white rounded-lg border border-gray-200 p-4 sm:p-6 shadow-sm">
       <div className="relative">
         {/* Timeline line */}
         <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200" />
@@ -56,6 +54,19 @@ export function MedicalTimeline({ events, onEventClick }: MedicalTimelineProps) 
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-1">
+                  {/* Event Status: Active or Historical */}
+                  {(() => {
+                    const status = getEventStatus(event.date);
+                    return (
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        status === 'Active' 
+                          ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                          : 'bg-gray-50 text-gray-600 border border-gray-200'
+                      }`}>
+                        {status}
+                      </span>
+                    );
+                  })()}
                   <span className={`px-2 py-1 rounded text-xs font-medium border ${getTypeColor(event.type)}`}>
                     {event.type}
                   </span>
@@ -71,6 +82,13 @@ export function MedicalTimeline({ events, onEventClick }: MedicalTimelineProps) 
             </button>
           ))}
         </div>
+      </div>
+      
+      {/* Legend */}
+      <div className="mt-4 pt-4 border-t border-gray-200">
+        <p className="text-xs text-gray-500">
+          <span className="font-medium">Status:</span> Active = ongoing/recent (within 14 days), Historical = past
+        </p>
       </div>
     </div>
   );

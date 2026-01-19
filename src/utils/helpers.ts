@@ -80,3 +80,18 @@ export function getDaysFromRange(range: '7d' | '30d' | '6m'): number {
   if (range === '30d') return 30;
   return 180; // 6 months
 }
+
+// Determine if a medical event is Active or Historical
+// Active = event is within last 14 days OR missing endDate (ongoing)
+// Historical = event is older than 14 days
+export function getEventStatus(eventDate: string, endDate?: string): 'Active' | 'Historical' {
+  // If endDate is missing, consider it ongoing/active
+  if (!endDate) {
+    const daysSinceEvent = Math.floor((Date.now() - new Date(eventDate).getTime()) / (1000 * 60 * 60 * 24));
+    return daysSinceEvent <= 14 ? 'Active' : 'Historical';
+  }
+  
+  // If endDate exists, check if event ended within last 14 days
+  const daysSinceEnd = Math.floor((Date.now() - new Date(endDate).getTime()) / (1000 * 60 * 60 * 24));
+  return daysSinceEnd <= 14 ? 'Active' : 'Historical';
+}
